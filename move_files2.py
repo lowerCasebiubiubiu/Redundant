@@ -171,7 +171,7 @@ for random_index in select_redundant_dir_sum:#遍历冗余工程路径
         nowIndex=random.randint(0,len(source_dirs)-1)
         print '正在随机'+str(nowIndex)+'可用   0-'+str(len(source_dirs)-1)
         print source_dir_index_array
-        if len(source_dir_index_array)==len(source_dirs):
+        if len(source_dir_index_array)>=len(source_dirs):
             break
     
     print 'succ-------------------------'+str(nowIndex)
