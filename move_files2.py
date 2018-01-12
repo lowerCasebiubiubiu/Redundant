@@ -159,29 +159,31 @@ except:
         print '\n载入完成后发生日志写入错误,目录'+log_dir
         sys.exit()
 source_dir_index_array=[]
+source_dir_index_array_dir=[]
 for random_index in select_redundant_dir_sum:#遍历冗余工程路径
     redundant_dir=redundant_dirs[random_index]#获取一个冗余工程地址
 #    print '\n正在复制冗余目录:'+redundant_dir
     redundant_files=getAllFilesWithoutDirs(redundant_dir)#获取当前路径下的所有文件
     #真实工程路径
+#第一种
+    nowIndex=random.randint(0,len(source_dirs)-1)
+    while(nowIndex in source_dir_index_array):
+        nowIndex=random.randint(0,len(source_dirs)-1)
+        print '正在随机'+str(nowIndex)+'可用   0-'+str(len(source_dirs)-1)
+        print source_dir_index_array
+        if len(source_dir_index_array)==len(source_dirs):
+            break
     
-    for redundant_file in redundant_files:
-        if redundant_file.split('/')[-1]=='.DS_Store':
-            print '跳过复制.DS_Store文件'
-            continue
-        random_source_dirs=source_dirs[random.randint(0,len(source_dirs)-1)]
-        random_source_dir=random_source_dirs+'/'+redundant_file.split("/")[-1]
-        if(redundant_file.split('.')[-1]=='h' or redundant_file.split('.')[-1]=='m' or redundant_file.split('.')[-1]=='xib'):
-            move_the_same_dir(redundant_file,random_source_dir,file_object)
-            continue
-        #移动文件
-        shutil.copyfile(redundant_file, random_source_dir)
-        print '移动普通文件:'+redundant_file+' 目标目录:'+random_source_dir
-        try:
-            file_object.write('复制文件:'+redundant_file+'  '+random_source_dir)
-        except:
-            print '\n复制文件时发生日志写入错误,目录'+log_dir
-            sys.exit()
+    print 'succ-------------------------'+str(nowIndex)
+#    source_dir_index_array_dir.append(source_dirs[nowIndex])
+#    print  source_dir_index_array_dir
+    source_dir_index_array.append(nowIndex)
+#    print source_dir_index_array
+    random_source_dirs=source_dirs[nowIndex]#获取目的路径  唯一
+    redundant_dir_all=random_source_dirs+'/'+redundant_dir.split("/")[-1]#获取目的路径+名字
+    shutil.copytree(redundant_dir,redundant_dir_all)
+    print '源路径:'+redundant_dir
+    print '目的路径:'+redundant_dir_all
 file_object.close()
 print '移动文件日志:'+log_dir
 print '冗余工程数量:'+str(len(redundant_dirs))
