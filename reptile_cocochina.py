@@ -84,6 +84,7 @@ f_url = open(file_path+'/down_url.txt','wb')
 
 
 list_url_product=[]
+now_ok_down=0;
 for one_root in list_root:
     print one_root
     myre0=re.compile(r'[0-9]*$')
@@ -100,6 +101,7 @@ for one_root in list_root:
     max_page=re.findall(myre3, url_max_page)[0]
     print max_page
     max_page_int=int(max_page)
+    print '最大的'+str(max_page_int)
     i=0
     while i<=max_page_int:
         i=i+1
@@ -117,7 +119,12 @@ for one_root in list_root:
             down_url=get_down_url(one_select_url)
             if down_url!='':
                 list_url_product.append(down_url)
+                if(now_ok_down<now_down):
+                    print '当前跳过第'+str(now_ok_down)
+                    now_ok_down=now_ok_down+1
+                    continue
                 now_down=now_down+1
+                now_ok_down=now_ok_down+1
                 if now_down>max_down:
                     sys.exit()
                 f_url.write(down_url+'\n')
