@@ -12,7 +12,7 @@ if len(sys.argv)>1:
 if len(sys.argv)>2:
     classCount=sys.argv[2]
 
-url = "http://www.ourname.xin/redundancy/classNames.php?headName="+className+"&count="+str(classCount)
+url = "http://59.110.157.103/redundancy/classNames.php?headName="+className+"&count="+str(classCount)
 
 req = urllib2.Request(url)
 res_data = urllib2.urlopen(req)
